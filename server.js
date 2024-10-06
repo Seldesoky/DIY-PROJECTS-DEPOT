@@ -1,27 +1,56 @@
-// server.js
 import express from 'express';
-import { connect } from 'mongoose';
-import { config } from 'dotenv';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import morgan from 'morgan';
 
-config(); 
+import authRoutes from './routes/authRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 
+
+dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 5173;
 
-// Middleware 
-app.use(express.json());
-
-// Connect to MongoDB
-connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// routes Place holders
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
+// Rate-limiting middleware 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-// Start server
-const PORT = process.env.PORT || 5001;
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(helmet()); 
+app.use(limiter);
+app.use(morgan('dev')); 
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/comments', commentRoutes);
+
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({
+    status: 'error',
+    message: 'An internal error occurred'
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
