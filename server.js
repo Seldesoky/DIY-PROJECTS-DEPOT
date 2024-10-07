@@ -14,7 +14,7 @@ import commentRoutes from './routes/commentRoutes.js';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 5001;
 
 // Rate-limiting middleware 
 const limiter = rateLimit({
@@ -24,7 +24,19 @@ const limiter = rateLimit({
 });
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true
+}));
+// Allow OPTIONS method for preflight requests
+app.options('*', cors({
+  origin: 'http://localhost:5173', // Ensure preflight requests are handled for this origin
+  credentials: true
+}));
+
+
 app.use(express.json());
 app.use(helmet()); 
 app.use(limiter);

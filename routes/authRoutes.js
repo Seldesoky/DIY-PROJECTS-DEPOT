@@ -2,6 +2,9 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { check, validationResult } from 'express-validator';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -9,7 +12,8 @@ const router = express.Router();
 router.post('/register', [
   check('username', 'Username is required').not().isEmpty(),
   check('email', 'Please provide a valid email').isEmail(),
-  check('password', 'Password must be at least 6 characters long').isLength({ min: 6 })
+  check('password', 'Password must be at least 6 characters long').isLength({ min: 6 }),
+  check('confirmPassword', 'Confirm Password is required').not().isEmpty()
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -17,8 +21,13 @@ router.post('/register', [
   }
 
   try {
-    const { username, email, password } = req.body;
-    
+    const { username, email, password, confirmPassword } = req.body;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Passwords do not match' });
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -46,10 +55,16 @@ router.post('/login', [
 
   try {
     const { email, password } = req.body;
-    
+
     // Find user by email
     const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Compare passwords
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
