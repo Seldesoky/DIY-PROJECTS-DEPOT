@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuthenticated } from '../middleware/authMiddleware.js';
+import { isAuthenticated, isModerator, isAdmin } from '../middleware/authMiddleware.js';
 import {
   createProject,
   getProjects,
@@ -10,19 +10,19 @@ import {
 
 const router = express.Router();
 
-// Create a new project
+// Create a new project (only authenticated users can create)
 router.post('/', isAuthenticated, createProject);
 
-// Get all projects
+// Get all projects (publicly accessible)
 router.get('/', getProjects);
 
-// Get a single project by id
+// Get a single project by id (publicly accessible)
 router.get('/:id', getProjectById);
 
-// Update a project
+// Update a project (author, moderators, and admins can update)
 router.put('/:id', isAuthenticated, updateProject);
 
-// Delete a project
+// Delete a project (author, moderators, and admins can delete)
 router.delete('/:id', isAuthenticated, deleteProject);
 
 export default router;

@@ -46,8 +46,8 @@ export const updateComment = async (req, res) => {
             return res.status(404).json({ message: 'Comment not found' });
         }
 
-        // Ensure the user is the author of the comment or a moderator
-        if (comment.author.toString() !== req.user._id && req.user.role !== 'moderator') {
+        // Ensure the user is the author of the comment, a moderator, or an admin
+        if (comment.author.toString() !== req.user._id && req.user.role !== 'moderator' && req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Unauthorized to edit this comment' });
         }
 
@@ -67,8 +67,8 @@ export const deleteComment = async (req, res) => {
             return res.status(404).json({ message: 'Comment not found' });
         }
 
-        // Ensure the user is the author of the comment or a moderator
-        if (comment.author.toString() !== req.user._id && req.user.role !== 'moderator') {
+        // Ensure the user is the author of the comment, a moderator, or an admin
+        if (comment.author.toString() !== req.user._id && req.user.role !== 'moderator' && req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Unauthorized to delete this comment' });
         }
 

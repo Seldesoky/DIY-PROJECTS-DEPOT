@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,13 +14,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); 
+    setError('');
 
     try {
       const response = await axios.post('http://localhost:5001/api/auth/login', formData);
       const token = response.data.token;
       localStorage.setItem('token', token);
-      alert('Logged in successfully!');
+      
+      // Redirect to Home page after successful login
+      navigate('/home');
     } catch (error) {
       console.error('Error logging in:', error);
       setError('Invalid credentials, please try again.');
@@ -29,10 +32,12 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-header">
-        <h1>Welcome to DIY Project Hub</h1>
+        <h1>DIY Project Depot</h1>
         <p>Discover, share, and get inspired by creative DIY projects from our community!</p>
       </div>
-
+      <Link to="/projects">
+          <button>Check DIY Projects</button>
+        </Link>
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Log In</h2>
         {error && <p className="error-message">{error}</p>}

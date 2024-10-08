@@ -48,7 +48,8 @@ export const updateProject = async (req, res) => {
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
-    if (project.createdBy.toString() !== req.user._id && req.user.role !== 'moderator') {
+    // Ensure the user is the creator, a moderator, or an admin
+    if (project.createdBy.toString() !== req.user._id && req.user.role !== 'moderator' && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Unauthorized to edit this project' });
     }
     const updatedProject = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -65,7 +66,8 @@ export const deleteProject = async (req, res) => {
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
-    if (project.createdBy.toString() !== req.user._id && req.user.role !== 'moderator') {
+    // Ensure the user is the creator, a moderator, or an admin
+    if (project.createdBy.toString() !== req.user._id && req.user.role !== 'moderator' && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Unauthorized to delete this project' });
     }
     await Project.findByIdAndDelete(req.params.id);

@@ -32,7 +32,7 @@ app.use(cors({
 }));
 // Allow OPTIONS method for preflight requests
 app.options('*', cors({
-  origin: 'http://localhost:5173', // Ensure preflight requests are handled for this origin
+  origin: 'http://localhost:5173', 
   credentials: true
 }));
 

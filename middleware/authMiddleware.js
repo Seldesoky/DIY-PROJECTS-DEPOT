@@ -25,7 +25,7 @@ export const isAuthenticated = async (req, res, next) => {
     }
 };
 
-// Middleware to check if the authenticated user has a moderator access
+// Middleware to check if the authenticated user has moderator access
 export const isModerator = (req, res, next) => {
     if (req.user && req.user.role === 'moderator') {
         next();
@@ -34,3 +34,11 @@ export const isModerator = (req, res, next) => {
     }
 };
 
+// Middleware to check if the authenticated user has admin access
+export const isAdmin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied, requires admin role' });
+    }
+};

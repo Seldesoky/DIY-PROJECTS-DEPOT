@@ -12,8 +12,7 @@ const router = express.Router();
 router.post('/register', [
   check('username', 'Username is required').not().isEmpty(),
   check('email', 'Please provide a valid email').isEmail(),
-  check('password', 'Password must be at least 6 characters long').isLength({ min: 6 }),
-  check('confirmPassword', 'Confirm Password is required').not().isEmpty()
+  check('password', 'Password must be at least 4 characters long').isLength({ min: 4 })
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -21,12 +20,7 @@ router.post('/register', [
   }
 
   try {
-    const { username, email, password, confirmPassword } = req.body;
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      return res.status(400).json({ message: 'Passwords do not match' });
-    }
+    const { username, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });

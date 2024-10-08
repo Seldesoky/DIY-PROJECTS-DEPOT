@@ -53,3 +53,44 @@ export const getUserProfile = (req, res) => {
     }
     res.json(req.user);
 };
+
+// Admin: Get all users
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({}, 'username email role'); // Fetch all users with selected fields
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error, could not retrieve users' });
+    }
+};
+
+// Admin: Delete a user
+export const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error, could not delete user' });
+    }
+};
+
+// Admin: Promote/demote user role
+export const updateUserRole = async (req, res) => {
+    try {
+        const { role } = req.body;
+        const user = await User.findById(req.params.id);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        user.role = role;
+        await user.save();
+        res.json({ message: 'User role updated successfully', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error, could not update user role' });
+    }
+};
