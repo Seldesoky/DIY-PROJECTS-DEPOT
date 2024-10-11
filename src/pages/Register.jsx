@@ -26,7 +26,6 @@ const Register = () => {
         email: formData.email,
         password: formData.password
       });
-      alert('User registered successfully!');
       navigate('/login');
     } catch (error) {
       console.error('Error registering user:', error);

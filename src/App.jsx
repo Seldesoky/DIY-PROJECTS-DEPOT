@@ -7,6 +7,8 @@ import ProjectList from './pages/ProjectList.jsx';
 import ProjectDetail from './pages/ProjectDetail.jsx';
 import Landing from './pages/Landing.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AddProject from './pages/AddProject.jsx';
+import EditProject from './pages/EditProject.jsx';
 
 function App() {
   return (
@@ -28,6 +30,22 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/add-project" 
+          element={
+            <ProtectedRoute>
+              <AddProject />
+            </ProtectedRoute>
+        } 
+      />
+      <Route 
+          path="/projects/edit/:id" 
+          element={
+            <ProtectedRoute>
+              <EditProject />
+            </ProtectedRoute>
+        } 
+      />
       </Routes>
     </div>
   );
