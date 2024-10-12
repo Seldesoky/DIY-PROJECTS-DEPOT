@@ -9,6 +9,7 @@ import Landing from './pages/Landing.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AddProject from './pages/AddProject.jsx';
 import EditProject from './pages/EditProject.jsx';
+import UserManagementPage from './pages/UserList.jsx';
 
 function App() {
   return (
@@ -18,34 +19,35 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/projects" element={<ProjectList />} /> 
+        <Route path="/projects" element={<ProjectList />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
 
         {/* Protected Routes */}
-        <Route 
-          path="/home" 
+        <Route
+          path="/home"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
-          } 
+          }
         />
-        <Route 
-          path="/add-project" 
+        <Route
+          path="/add-project"
           element={
             <ProtectedRoute>
               <AddProject />
             </ProtectedRoute>
-        } 
-      />
-      <Route 
-          path="/projects/edit/:id" 
+          }
+        />
+        <Route
+          path="/projects/edit/:id"
           element={
             <ProtectedRoute>
               <EditProject />
             </ProtectedRoute>
-        } 
-      />
+          }
+        />
+        <Route path="/users" element={<UserManagementPage />} />
       </Routes>
     </div>
   );

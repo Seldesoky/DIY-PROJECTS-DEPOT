@@ -4,7 +4,8 @@ import Project from '../models/Project.js';
 // Create a new comment
 export const createComment = async (req, res) => {
     try {
-        const { content, projectId } = req.body;
+        const { content } = req.body;
+        const { projectId } = req.params;
 
         // Ensure the project exists
         const project = await Project.findById(projectId);
@@ -31,6 +32,11 @@ export const getCommentsByProject = async (req, res) => {
         const comments = await Comment.find({ project: req.params.projectId })
             .populate('author', 'username')
             .sort({ createdAt: -1 });
+
+        // If no comments exist, return an empty array
+        if (!comments || comments.length === 0) {
+            return res.json([]);  // Return an empty array if no comments exist
+        }
 
         res.json(comments);
     } catch (error) {
@@ -72,7 +78,7 @@ export const deleteComment = async (req, res) => {
             return res.status(403).json({ message: 'Unauthorized to delete this comment' });
         }
 
-        await comment.remove();
+        await Comment.findByIdAndDelete(req.params.id)
         res.json({ message: 'Comment deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error, could not delete comment' });

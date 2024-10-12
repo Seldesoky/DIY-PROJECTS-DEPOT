@@ -5,15 +5,15 @@ import { isAuthenticated, isModerator, isAdmin } from '../middleware/authMiddlew
 const router = express.Router();
 
 // Create a new comment
-router.post('/', isAuthenticated, createComment);
+router.post('/:projectId', isAuthenticated, createComment);
 
 // Get all comments for a specific project
-router.get('/project/:projectId', getCommentsByProject);
+router.get('/:projectId', getCommentsByProject);
 
-// Update a comment (author, moderators, and admins can update)
+// // Update a comment (author, moderators, and admins can update)
 router.put('/:id', isAuthenticated, updateComment);
 
-// Delete a comment (author, moderators, and admins can delete)
+// // Delete a comment (author, moderators, and admins can delete)
 router.delete('/:id', isAuthenticated, deleteComment);
 
 export default router;

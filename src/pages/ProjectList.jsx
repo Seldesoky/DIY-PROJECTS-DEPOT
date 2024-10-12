@@ -10,6 +10,7 @@ const ProjectList = () => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuthenticaed, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
@@ -27,6 +28,11 @@ const ProjectList = () => {
 
   // Fetch projects and include author details
   useEffect(() => {
+
+    if (localStorage.getItem("token")) {
+      setIsAuthenticated(true);
+    }
+
     const fetchProjects = async () => {
       try {
         const response = await axios.get('http://localhost:5001/api/projects');
@@ -65,14 +71,18 @@ const ProjectList = () => {
         <button className="menu-button" onClick={toggleMenu}>Menu</button>
         <div className="nav-dropdown">
           <a href="/home">Home</a>
-          <a href="/add-project">Add Project</a>
+          {isAuthenticaed && (
+            <a href="/add-project">Add Project</a>
+          )}
           <a href="/projects">Projects</a>
-          <a href="#" onClick={handleLogout}>Logout</a>
+          {isAuthenticaed && (
+            <a href="/logout" onClick={handleLogout}>Logout</a>
+          )}
         </div>
       </div>
 
       <h1>DIY Projects</h1>
-      
+
       {/* Search bar */}
       <div className="search-container">
         <input
@@ -83,7 +93,7 @@ const ProjectList = () => {
         />
       </div>
 
-      
+
       <ul className="project-links">
         {filteredProjects.length > 0 ? (
           filteredProjects.map((project) => (
