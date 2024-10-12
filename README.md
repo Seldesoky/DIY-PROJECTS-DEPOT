@@ -1,6 +1,6 @@
 # DYI Project Depot
 
-![DYI Logo] https://imgur.com/jLuL4Pl
+![DYI Logo] (https://imgur.com/jLuL4Pl.png)
 
 ## Introduction
 
