@@ -33,9 +33,9 @@ const Login = () => {
     <div className="login-container">
       <div className="login-header">
       <div className="logo-container">
-        <img src="https://imgur.com/jLuL4Pl.png" alt="DYI Project Depot Logo" className="logo" />
+        <img src="https://imgur.com/KM0ia2A.png" alt="DIY Project Depot Logo" className="logo" />
       </div>
-        <p>Discover, share, and get inspired by creative DYI projects from our community!</p>
+        <p>Discover, share, and get inspired by creative DIY projects from our community!</p>
       </div>
       <Link to="/projects">
           <button>Check DIY Projects</button>

@@ -6,10 +6,10 @@ const Landing = () => {
   return (
     <div>
       <div className="logo-container">
-        <img src="https://imgur.com/jLuL4Pl.png" alt="DYI Project Depot Logo" className="logo" />
+        <img src="https://imgur.com/KM0ia2A.png" alt="DYI Project Depot Logo" className="logo" />
       </div>
       <Link to="/projects">
-          <button>Check DYI Projects</button>
+          <button>Check DIY Projects</button>
         </Link>
       <p>Discover, share, and get inspired by creative DIY projects from our community!</p>
 

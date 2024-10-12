@@ -1,6 +1,6 @@
-# DYI Project Depot
+# DIY Project Depot
 
-![DYI Logo](https://imgur.com/jLuL4Pl.png)
+![DIY Logo](https://imgur.com/KM0ia2A.png)
 
 ## Introduction
 
