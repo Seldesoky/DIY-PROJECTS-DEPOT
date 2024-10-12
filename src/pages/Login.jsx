@@ -32,8 +32,10 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-header">
-        <h1>DIY Project Depot</h1>
-        <p>Discover, share, and get inspired by creative DIY projects from our community!</p>
+      <div className="logo-container">
+        <img src="https://imgur.com/jLuL4Pl.png" alt="DYI Project Depot Logo" className="logo" />
+      </div>
+        <p>Discover, share, and get inspired by creative DYI projects from our community!</p>
       </div>
       <Link to="/projects">
           <button>Check DIY Projects</button>

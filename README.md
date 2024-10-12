@@ -1,8 +1,35 @@
-# DIY Project Depot
+# DYI Project Depot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![DYI Logo] https://imgur.com/jLuL4Pl
 
-Currently, two official plugins are available:
+## Introduction
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+DIY Project Hub is a platform built with the MERN stack (MongoDB, Express, React, Node.js) that allows users to share and explore DIY projects. The platform features project creation, commenting, and role-based access for managing projects and user comments.
+
+## Features
+
+- **Project Creation:** Users can create, edit, and delete their DIY projects with details like materials and step-by-step instructions.
+- **User Authentication:** Secure login and registration with JWT token-based authentication.
+- **Commenting System:** Users can add comments on projects. Only project authors, moderators, and admins can edit or delete comments.
+- **Role-based Access Control:** Admin users have access to a "User List" management page, while regular users can only see their own projects.
+- **Search Functionality:** Users can search for projects using a search bar on the project list page.
+- **Responsive Design:** The platform is designed to be responsive and accessible across various devices.
+
+## Technologies Used
+
+- **Frontend:** React (with React Router)
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Authentication:** JWT (JSON Web Tokens)
+- **CSS:** Basic styling with custom CSS
+
+## Deployment
+//TBD//
+
+## Version
+V.01
+
+### Next Steps
+- Adding likes
+- users can add visuals/images
+- Rest password functionality

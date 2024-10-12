@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './ProjectDetail.css'
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const ProjectDetail = () => {
   const [user, setUser] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -27,7 +29,7 @@ const ProjectDetail = () => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(`http://localhost:5001/api/comments/${id}`);
-        setComments(response.data || []); // Set comments or empty array
+        setComments(response.data || []); 
       } catch (err) {
         console.error('Failed to fetch comments:', err);
         setLoading(false);
@@ -45,6 +47,15 @@ const ProjectDetail = () => {
       setUser({ id: decodedToken.id, role: decodedToken.role });
     }
   }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen); 
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this project?');
@@ -75,13 +86,13 @@ const ProjectDetail = () => {
 
     try {
       await axios.post(
-        `http://localhost:5001/api/comments/${id}`,  // Adjusted path for adding a comment
+        `http://localhost:5001/api/comments/${id}`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setNewComment(''); // Clear the input field after adding the comment
-      const updatedComments = await axios.get(`http://localhost:5001/api/comments/${id}`);  // Adjusted path for fetching comments
-      setComments(updatedComments.data); // Refresh the comments
+      setNewComment(''); 
+      const updatedComments = await axios.get(`http://localhost:5001/api/comments/${id}`);
+      setComments(updatedComments.data); 
     } catch (err) {
       console.error('Failed to add comment:', err);
     }
@@ -138,7 +149,22 @@ const ProjectDetail = () => {
   const canEditOrDelete = user && (user.id === project.createdBy._id || user.role === 'admin' || user.role === 'moderator');
 
   return (
-    <div>
+    <div className="project-detail-container">
+      <div className={`menu-container ${menuOpen ? 'active' : ''}`}>
+        <button className="menu-button" onClick={toggleMenu}>Menu</button>
+        <div className="nav-dropdown">
+          <a href="/home">Home</a>
+          <a href="/projects">Projects</a>
+          {user && (
+            <>
+              {user.role === 'admin' && <a href="/users">User List</a>}
+              
+              <a href="/login" onClick={handleLogout}>Logout</a>
+            </>
+          )}
+        </div>
+      </div>
+
       <h1>{project.title}</h1>
       <p><strong>Description:</strong> {project.description}</p>
       <h2>Materials</h2>
@@ -154,7 +180,6 @@ const ProjectDetail = () => {
         ))}
       </ol>
 
-      {/* Show Edit and Delete buttons only if the user is authorized */}
       {canEditOrDelete && (
         <div>
           <button onClick={handleEdit}>Edit Project</button>
@@ -162,7 +187,6 @@ const ProjectDetail = () => {
         </div>
       )}
 
-      {/* Comments Section */}
       {comments.length > 0 && (
         <>
           <h2>Comments</h2>
@@ -180,7 +204,6 @@ const ProjectDetail = () => {
         </>
       )}
 
-      {/* Add Comment Section (for logged-in users) */}
       {localStorage.getItem('token') && (
         <div>
           <textarea

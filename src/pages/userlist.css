@@ -1,8 +1,3 @@
-.project-list-container {
-  padding-top: 80px;
-  text-align: center;
-}
-
 .menu-container {
   position: absolute;
   top: 2%;
@@ -25,7 +20,7 @@
 }
 
 .nav-dropdown {
-  display: none;
+  display: none; 
   position: absolute;
   background-color: white;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -36,7 +31,7 @@
 }
 
 .menu-container.active .nav-dropdown {
-  display: block;
+  display: block; 
 }
 
 .nav-dropdown a {
@@ -52,50 +47,27 @@
   color: white;
 }
 
-.project-links {
-  list-style-type: none; 
-  padding: 0;
-  margin: 0 auto;
-  max-width: 600px;
-  text-align: left; 
+.user-management-container {
+  padding-top: 80px;
+  text-align: center;
 }
 
 .project-links li {
-  margin-bottom: 15px; 
+  list-style: none;
+  margin: 10px 0;
 }
 
-.project-link {
-  color: var(--primary-color);
-  font-size: 1.2rem;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.project-links button {
+  margin-left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
 }
 
-.project-link:hover {
-  color: var(--hover-color);
-  text-decoration: underline; 
-}
-
-.search-container input {
-  margin-bottom: 20px;
-  margin-top: -1px;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: 2px solid var(--primary-color);
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.search-container input:focus {
-  border-color: var(--hover-color);
-}
-
-.logo-container {
-  margin-bottom: 20px;
-}
-
-.logo {
-  max-width: 200px;
-  height: auto;
+.project-links button:hover {
+  background-color: var(--hover-color);
 }

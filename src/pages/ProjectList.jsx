@@ -10,7 +10,8 @@ const ProjectList = () => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthenticaed, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState('');
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
@@ -28,9 +29,11 @@ const ProjectList = () => {
 
   // Fetch projects and include author details
   useEffect(() => {
-
-    if (localStorage.getItem("token")) {
+    const token = localStorage.getItem('token');
+    if (token) {
       setIsAuthenticated(true);
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      setUserRole(decodedToken.role);
     }
 
     const fetchProjects = async () => {
@@ -71,16 +74,21 @@ const ProjectList = () => {
         <button className="menu-button" onClick={toggleMenu}>Menu</button>
         <div className="nav-dropdown">
           <a href="/home">Home</a>
-          {isAuthenticaed && (
+          {isAuthenticated && (
             <a href="/add-project">Add Project</a>
           )}
           <a href="/projects">Projects</a>
-          {isAuthenticaed && (
-            <a href="/logout" onClick={handleLogout}>Logout</a>
+          {userRole === 'admin' && (
+            <a href="/users">User List</a>
+          )}
+          {isAuthenticated && (
+            <a href="/login" onClick={handleLogout}>Logout</a>
           )}
         </div>
       </div>
-
+      <div className="logo-container">
+        <img src="https://imgur.com/jLuL4Pl.png" alt="DYI Project Depot Logo" className="logo" />
+      </div>
       <h1>DIY Projects</h1>
 
       {/* Search bar */}
@@ -92,7 +100,6 @@ const ProjectList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
 
       <ul className="project-links">
         {filteredProjects.length > 0 ? (

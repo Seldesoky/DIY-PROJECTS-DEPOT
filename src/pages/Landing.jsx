@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 const Landing = () => {
   return (
     <div>
-      <h1>DIY Project Depot</h1>
+      <div className="logo-container">
+        <img src="https://imgur.com/jLuL4Pl.png" alt="DYI Project Depot Logo" className="logo" />
+      </div>
       <Link to="/projects">
-          <button>Check DIY Projects</button>
+          <button>Check DYI Projects</button>
         </Link>
       <p>Discover, share, and get inspired by creative DIY projects from our community!</p>
 
